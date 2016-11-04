@@ -1,90 +1,98 @@
 module.exports = function(grunt) {
 
-  // Project configuration.
-  grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
-      }
-    },
-    compass: {                  // Task 
-      dist: {                   // Target 
-        options: {              // Target options 
-          sassDir: 'src/scss',
-          cssDir: 'dist/css',
-          environment: 'production'
-        }
-      },
-      dev: {                    // Another target 
-        options: {
-          sassDir: 'src/scss',
-          cssDir: 'dist/css'
-        }
-      }
-    },
-    requirejs: {
-      compile: {
-        options: {
-          baseUrl: "src/js",
-          mainConfigFile: "src/js/config.js",
-          name: "almond", /* assumes a production build using almond, if you don't use almond, you
-                                     need to set the "includes" or "modules" option instead of name */
-          include: [ "main.js" ],
-          out: "dist/js/optimized.js"
-        }
-      }
-    },
-    sass: {                              // Task 
-        dist: {                            // Target 
-          options: {                       // Target options 
-            style: 'expanded'
-          },
-          files: {                         // Dictionary of files 
-            'main.css': 'main.scss',       // 'destination': 'source' 
-            'widgets.css': 'widgets.scss'
-          }
-        }
-      },
-    watch: {
-      css: {
-        files: ['dist/css/*.css'],
-        tasks: ['sass']
-      },
-      scripts: {
-        files: ['**/*.js'],
-        tasks: ['requirejs'],
-        options: {
-          spawn: false,
+    // Project configuration.
+    grunt.initConfig({
+
+        pkg: grunt.file.readJSON('package.json'),
+
+        // cssmin
+        cssmin: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.distresources %>/css',
+                    src: ['*.css', '!*.min.css'],
+                    dest: '<%= pkg.distresources %>/css'
+                }]
+            }
         },
-      },
-    },
-    browserSync: {
-        bsFiles: {
-            src : ['dist/css/*.css', '*.html']
+
+        // requirejs
+        requirejs: {
+            dev: {
+                options: {
+                    baseUrl: "<%= pkg.devresources %>/js",
+                    mainConfigFile: "<%= pkg.devresources %>/js/config.js",
+                    name: "almond",
+                    include: ["main.js"],
+                    out: "<%= pkg.distresources %>/js/optimized.js",
+                    preserveLicenseComments: false,
+                    optimize: "none"
+                }
+            },
+            dist: {
+                options: {
+                    baseUrl: "<%= pkg.devresources %>/js",
+                    mainConfigFile: "<%= pkg.devresources %>/js/config.js",
+                    name: "almond",
+                    include: ["main.js"],
+                    out: "<%= pkg.distresources %>/js/optimized.js",
+                    preserveLicenseComments: false,
+                    optimize: "uglify"
+                }
+            }
         },
-        options: {
-            server: {
-                baseDir: "./"
+
+        // sass
+        sass: {
+            options: {
+                sourceMap: false
+            },
+            dist: {
+                files: {
+                    '<%= pkg.distresources %>/css/main.css': '<%= pkg.devresources %>/scss/main.scss'
+                }
+            }
+        },
+
+        // browserSync
+        browserSync: {
+            bsFiles: {
+                src: ['<%= pkg.distresources %>/css/*.css', '<%= pkg.distresources %>/js/*.js', '*.html']
+            },
+            options: {
+                watchTask: true,
+                server: {
+                    baseDir: "./"
+                }
+            }
+        },
+
+        // watch
+        watch: {
+            scss: {
+                files: ['<%= pkg.devresources %>/scss/*.scss'],
+                tasks: ['sass']
+            },
+            scripts: {
+                files: ['<%= pkg.devresources %>/js/*.js'],
+                tasks: ['requirejs:dev'],
+                options: {
+                    spawn: false
+                }
             }
         }
-    },
-  });
+    });
 
-  // Load the plugin that provides the "uglify" task.
-  grunt.loadNpmTasks('grunt-browser-sync');
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+    // Load plugins
+    grunt.loadNpmTasks('grunt-browser-sync');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-sass');
 
-  // Default task(s).
-  grunt.registerTask('default', ['sass', 'requirejs', 'browserSync']);
-  grunt.registerTask('dev', ['browserSync', 'watch']);
-  grunt.registerTask('js', ['requirejs']);
+    // Define tasks
+    grunt.registerTask('default', ['sass', 'requirejs:dev', 'browserSync', 'watch']);
+    grunt.registerTask('dist', ['sass', 'cssmin', 'requirejs:dist']);
 
 };

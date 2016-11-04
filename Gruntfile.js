@@ -5,6 +5,21 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
+        // copy
+        copy: {
+            main: {
+                files: [
+                    // includes files within path 
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.devresources %>/img',
+                        src: '**',
+                        dest: '<%= pkg.distresources %>/img'
+                    }
+                ],
+            },
+        },
+
         // cssmin
         cssmin: {
             target: {
@@ -86,13 +101,14 @@ module.exports = function(grunt) {
 
     // Load plugins
     grunt.loadNpmTasks('grunt-browser-sync');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sass');
 
     // Define tasks
-    grunt.registerTask('default', ['sass', 'requirejs:dev', 'browserSync', 'watch']);
-    grunt.registerTask('dist', ['sass', 'cssmin', 'requirejs:dist']);
+    grunt.registerTask('default', ['sass', 'requirejs:dev', 'copy', 'browserSync', 'watch']);
+    grunt.registerTask('dist', ['sass', 'cssmin', 'requirejs:dist', 'copy']);
 
 };

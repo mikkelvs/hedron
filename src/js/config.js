@@ -1,9 +1,46 @@
 requirejs.config({
-    baseUrl: 'src/js/modules',
+    baseUrl: 'src/js',
     paths: {
-        'main'			: '../main',
-        'almond'		: '../vendor/almond/almond',
-        'jquery'		: '../vendor/jquery/dist/jquery',
-        'foundation'	: '../vendor/foundation/js/foundation'
-    }
+        'main': 'main',
+        'almond': '../vendor/almond/almond',
+        'jquery': '../vendor/foundation/js/vendor/jquery',
+        'jquery.cookie': '../vendor/foundation/js/vendor/jquery.cookie',
+        'foundation': '../vendor/foundation/js/foundation/foundation',
+        'foundation.abide': '../vendor/foundation/js/foundation/foundation.abide',
+        'foundation.accordion': '../vendor/foundation/js/foundation/foundation.accordion',
+        'foundation.alert': '../vendor/foundation/js/foundation/foundation.alert',
+        'foundation.clearing': '../vendor/foundation/js/foundation/foundation.clearing',
+        'foundation.dropdown': '../vendor/foundation/js/foundation/foundation.dropdown',
+        'foundation.equalizer': '../vendor/foundation/js/foundation/foundation.equalizer',
+        'foundation.interchange': '../vendor/foundation/js/foundation/foundation.interchange',
+        'foundation.joyride': '../vendor/foundation/js/foundation/foundation.joyride',
+        'foundation.magellan': '../vendor/foundation/js/foundation/foundation.magellan',
+        'foundation.offcanvas': '../vendor/foundation/js/foundation/foundation.offcanvas',
+        'foundation.orbit': '../vendor/foundation/js/foundation/foundation.orbit',
+        'foundation.reveal': '../vendor/foundation/js/foundation/foundation.reveal',
+        'foundation.slider': '../vendor/foundation/js/foundation/foundation.slider',
+        'foundation.tab': '../vendor/foundation/js/foundation/foundation.tab',
+        'foundation.tooltip': '../vendor/foundation/js/foundation/foundation.tooltip',
+        'foundation.topbar': '../vendor/foundation/js/foundation/foundation.topbar'
+    },
+    shim: {
+        'foundation': ['jquery'],
+        'foundation.abide': ['foundation'],
+        'foundation.accordion': ['foundation'],
+        'foundation.alert': ['foundation'],
+        'foundation.clearing': ['foundation'],
+        'foundation.dropdown': ['foundation'],
+        'foundation.equalizer': ['foundation'],
+        'foundation.interchange': ['foundation'],
+        'foundation.joyride': ['foundation', 'jquery.cookie'],
+        'foundation.magellan': ['foundation'],
+        'foundation.offcanvas': ['foundation'],
+        'foundation.orbit': ['foundation'],
+        'foundation.reveal': ['foundation'],
+        'foundation.slider': ['foundation'],
+        'foundation.tab': ['foundation'],
+        'foundation.tooltip': ['foundation'],
+        'foundation.topbar': ['foundation']
+    },
+    deps: ['main']
 });

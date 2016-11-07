@@ -4,7 +4,7 @@ define([
     'foundation.core',
     'foundation.util.mediaQuery',
     // Optional utils
-    //'foundation.util.box',
+    'foundation.util.box',
     'foundation.util.keyboard',
     'foundation.util.motion',
     'foundation.util.nest',
@@ -33,9 +33,6 @@ define([
 
 ], function ($, Foundation) {
     'use strict';
-
-    console.log('foundation-loader.js: foundation loader module is loaded');
-    console.log("f", Foundation);
 
     // bootstrap foundation
     $(document).foundation();

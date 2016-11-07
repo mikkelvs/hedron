@@ -5,17 +5,23 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
+        // compile foundation with babel
         babel: {
             options: {
-                sourceMap: false
+                sourceMap: false,
+                compact: false
             },
             dist: {
-                files: {
-                    "<%= pkg.distresources %>/js/optimized.js": "<%= pkg.distresources %>/js/optimized.js"
-                }
+                files: [{
+                    expand: true,
+                    cwd: '<%= pkg.devresources %>/vendor/foundation-sites/js',
+                    src: ['*.js'],
+                    dest: '<%= pkg.devresources %>/vendor/foundation-sites/js'
+                }]
             }
         },
 
+        // clean
         clean: ["dist"],
 
         // copy
@@ -47,23 +53,12 @@ module.exports = function(grunt) {
 
         // requirejs
         requirejs: {
-            dev: {
-                options: {
-                    baseUrl: "<%= pkg.devresources %>/js/modules",
-                    mainConfigFile: "<%= pkg.devresources %>/js/config.js",
-                    name: "almond",
-                    //include: ["main.js"],
-                    out: "<%= pkg.distresources %>/js/optimized.js",
-                    preserveLicenseComments: false,
-                    optimize: "none"
-                }
-            },
             dist: {
                 options: {
                     baseUrl: "<%= pkg.devresources %>/js/modules",
                     mainConfigFile: "<%= pkg.devresources %>/js/config.js",
                     name: "almond",
-                    //include: ["main.js"],
+                    //include: ["../main.js"],
                     out: "<%= pkg.distresources %>/js/optimized.js",
                     preserveLicenseComments: false,
                     optimize: "none"
@@ -79,6 +74,14 @@ module.exports = function(grunt) {
             dist: {
                 files: {
                     '<%= pkg.distresources %>/css/main.css': '<%= pkg.devresources %>/scss/main.scss'
+                }
+            }
+        },
+
+        uglify: {
+            dist: {
+                files: {
+                    '<%= pkg.distresources %>/js/optimized.js': ['<%= pkg.distresources %>/js/optimized.js']
                 }
             }
         },
@@ -104,7 +107,7 @@ module.exports = function(grunt) {
             },
             scripts: {
                 files: ['<%= pkg.devresources %>/js/**/*.js'],
-                tasks: ['requirejs:dev'],
+                tasks: ['babel', 'requirejs'],
                 options: {
                     spawn: false
                 }
@@ -119,11 +122,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sass');
 
     // Define tasks
-    grunt.registerTask('default', ['clean', 'sass', 'requirejs:dev', 'babel', 'copy', 'browserSync', 'watch']);
-    grunt.registerTask('dist', ['clean', 'sass', 'cssmin', 'requirejs:dist', 'babel', 'copy']);
+    grunt.registerTask('default', ['clean', 'sass', 'babel', 'requirejs', 'copy', 'browserSync', 'watch']);
+    grunt.registerTask('dist', ['clean', 'sass', 'cssmin', 'babel', 'requirejs', 'uglify', 'copy']);
 
 };

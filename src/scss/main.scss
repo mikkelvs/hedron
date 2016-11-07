@@ -1,4 +1,6 @@
-@import "../vendor/foundation/scss/foundation.scss";
+@import "../vendor/foundation-sites/scss/foundation";
+
+@include foundation-everything;
 
 body {
 	background-color: #ccc;

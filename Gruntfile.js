@@ -5,6 +5,19 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
+        babel: {
+            options: {
+                sourceMap: false
+            },
+            dist: {
+                files: {
+                    "<%= pkg.distresources %>/js/optimized.js": "<%= pkg.distresources %>/js/optimized.js"
+                }
+            }
+        },
+
+        clean: ["dist"],
+
         // copy
         copy: {
             main: {
@@ -36,10 +49,10 @@ module.exports = function(grunt) {
         requirejs: {
             dev: {
                 options: {
-                    baseUrl: "<%= pkg.devresources %>/js",
+                    baseUrl: "<%= pkg.devresources %>/js/modules",
                     mainConfigFile: "<%= pkg.devresources %>/js/config.js",
                     name: "almond",
-                    include: ["main.js"],
+                    //include: ["main.js"],
                     out: "<%= pkg.distresources %>/js/optimized.js",
                     preserveLicenseComments: false,
                     optimize: "none"
@@ -47,13 +60,13 @@ module.exports = function(grunt) {
             },
             dist: {
                 options: {
-                    baseUrl: "<%= pkg.devresources %>/js",
+                    baseUrl: "<%= pkg.devresources %>/js/modules",
                     mainConfigFile: "<%= pkg.devresources %>/js/config.js",
                     name: "almond",
-                    include: ["main.js"],
+                    //include: ["main.js"],
                     out: "<%= pkg.distresources %>/js/optimized.js",
                     preserveLicenseComments: false,
-                    optimize: "uglify"
+                    optimize: "none"
                 }
             }
         },
@@ -90,7 +103,7 @@ module.exports = function(grunt) {
                 tasks: ['sass']
             },
             scripts: {
-                files: ['<%= pkg.devresources %>/js/*.js'],
+                files: ['<%= pkg.devresources %>/js/**/*.js'],
                 tasks: ['requirejs:dev'],
                 options: {
                     spawn: false
@@ -100,7 +113,9 @@ module.exports = function(grunt) {
     });
 
     // Load plugins
+    grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-browser-sync');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
@@ -108,7 +123,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-sass');
 
     // Define tasks
-    grunt.registerTask('default', ['sass', 'requirejs:dev', 'copy', 'browserSync', 'watch']);
-    grunt.registerTask('dist', ['sass', 'cssmin', 'requirejs:dist', 'copy']);
+    grunt.registerTask('default', ['clean', 'sass', 'requirejs:dev', 'babel', 'copy', 'browserSync', 'watch']);
+    grunt.registerTask('dist', ['clean', 'sass', 'cssmin', 'requirejs:dist', 'babel', 'copy']);
 
 };

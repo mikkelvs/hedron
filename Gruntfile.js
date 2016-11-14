@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
@@ -28,12 +28,24 @@ module.exports = function(grunt) {
         copy: {
             main: {
                 files: [
-                    // includes files within path 
+                    // includes files within path
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.devresources %>/gfx',
+                        src: '**',
+                        dest: '<%= pkg.distresources %>/gfx'
+                    },
                     {
                         expand: true,
                         cwd: '<%= pkg.devresources %>/img',
                         src: '**',
                         dest: '<%= pkg.distresources %>/img'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.devresources %>/vendor/font-awesome/fonts',
+                        src: '**',
+                        dest: '<%= pkg.distresources %>/fonts'
                     }
                 ],
             },
@@ -111,6 +123,14 @@ module.exports = function(grunt) {
                 options: {
                     spawn: false
                 }
+            },
+            gfx: {
+                files: ['<%= pkg.devresources %>/gfx/*'],
+                tasks: ['copy'],
+            },
+            img: {
+                files: ['<%= pkg.devresources %>/img/*'],
+                tasks: ['copy'],
             }
         }
     });

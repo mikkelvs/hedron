@@ -13,6 +13,7 @@
   ],
   "devDependencies": {
     "almond": "^0.3.3",
-    "foundation-sites": "^6.2.4"
+    "foundation-sites": "^6.2.4",
+    "font-awesome": "Font-Awesome#^4.7.0"
   }
 }

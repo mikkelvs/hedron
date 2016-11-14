@@ -1,9 +1,71 @@
 @import "../vendor/foundation-sites/scss/foundation";
-
+@import "../vendor/font-awesome/scss/font-awesome";
+@import url('https://fonts.googleapis.com/css?family=Slabo+27px|Titillium+Web');
 @include foundation-everything;
-
 body {
-	background-color: #ccc;
-	color : #000;
-	font-size : 1em;
+    background-color: #000;
+    color: #fff;
+    font-size: 1em;
+    font-family: 'Titillium Web', sans-serif;
+
+}
+
+#main {
+    height: 100%;
+    position: relative;
+    width: 100%;
+    display: block;
+}
+
+#main::after {
+    content: "";
+    background-image: url('/dist/img/hedron-bg1.jpg');
+    background-size: cover;
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+#logo {
+    text-align: center;
+    padding: 30px 0 30px 0;
+    img {
+        width: 50%;
+    }
+}
+
+h1 {
+    font-family: 'Slabo 27px', serif;
+    font-size: 1.5em;
+}
+
+.button {
+    font-size: 1.5em;
+    padding: 0.5em 0.6em;
+    border-radius: 7px;
+    width: 200px;
+    @include breakpoint(small down) {
+        width: 75px;
+    }
+    span {
+        @include breakpoint(small down) {
+            display: none;
+        }
+    }
+}
+
+.button-facebook {
+    background-color: #3b5998;
+}
+
+.button-soundcloud {
+    background-color: #ff3a00;
+}
+
+.button-youtube {
+    background-color: #bb0000;
 }

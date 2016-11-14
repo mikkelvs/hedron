@@ -1,8 +1,8 @@
-requirejs(['jquery', 'foundation-loader'], function($, foundationLoader) {
+requirejs(['jquery', 'foundation-loader'], function ($, foundationLoader) {
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-    	console.log("Everything loaded and ready to go.");
+        console.log("Everything loaded and ready to go.");
 
     });
 

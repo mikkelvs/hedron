@@ -46,6 +46,12 @@ module.exports = function (grunt) {
                         cwd: '<%= pkg.devresources %>/vendor/font-awesome/fonts',
                         src: '**',
                         dest: '<%= pkg.distresources %>/fonts'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= pkg.devresources %>/download',
+                        src: '**',
+                        dest: '<%= pkg.distresources %>/download'
                     }
                 ],
             },
@@ -130,6 +136,10 @@ module.exports = function (grunt) {
             },
             img: {
                 files: ['<%= pkg.devresources %>/img/*'],
+                tasks: ['copy'],
+            },
+            download: {
+                files: ['<%= pkg.devresources %>/download/*'],
                 tasks: ['copy'],
             }
         }

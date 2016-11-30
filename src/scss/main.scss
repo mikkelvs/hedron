@@ -1,17 +1,16 @@
 @import "../vendor/foundation-sites/scss/foundation";
 @import "../vendor/font-awesome/scss/font-awesome";
-@import url('https://fonts.googleapis.com/css?family=Slabo+27px|Titillium+Web');
+@import url('https://fonts.googleapis.com/css?family=Slabo+27px|Titillium+Web|Eczar:500');
 @include foundation-everything;
 body {
     background-color: #000;
     color: #fff;
     font-size: 1em;
     font-family: 'Titillium Web', sans-serif;
-
 }
 
 #main {
-    height: 100%;
+    // height: 100%;
     position: relative;
     width: 100%;
     display: block;
@@ -19,27 +18,64 @@ body {
 
 #main::after {
     content: "";
-    background-image: url('/dist/img/hedron-bg1.jpg');
-    background-size: cover;
-    opacity: 0.2;
+    background-image: url('/dist/img/hedron-bg2.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.5;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     position: absolute;
     z-index: -1;
+    background-position: 0 0;
+    @include breakpoint(small down) {
+        background-position: 0 50px;
+    }
+}
+
+#gradient {
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
 }
 
 #logo {
     text-align: center;
-    padding: 30px 0 30px 0;
-    img {
-        width: 50%;
+    padding-top: 100px;
+    padding-bottom: 300px;
+    @include breakpoint(small) {
+        padding-top: 30px;
+        padding-bottom: 70px;
+    }
+    @include breakpoint(medium) {
+        padding-top: 40px;
+        padding-bottom: 150px;
+    }
+    @include breakpoint(large) {
+        padding-top: 50px;
+        padding-bottom: 180px;
+    }
+    @include breakpoint(xlarge) {
+        padding-top: 100px;
+        padding-bottom: 180px;
     }
 }
 
+footer {
+    text-align: center;
+    padding: 20px 0px;
+}
+
+h1,
+h2 {
+    font-family: 'Eczar', serif;
+    font-size: 1.5em;
+}
+
 h1 {
-    font-family: 'Slabo 27px', serif;
+    font-size: 1.5em;
+}
+
+h2 {
     font-size: 1.5em;
 }
 
@@ -58,6 +94,10 @@ h1 {
     }
 }
 
+a {
+    color: orange;
+}
+
 .button-facebook {
     background-color: #3b5998;
 }
@@ -68,4 +108,14 @@ h1 {
 
 .button-youtube {
     background-color: #bb0000;
+}
+
+ul {
+    margin-left: 0;
+    li {
+        list-style-type: none;
+        .fa {
+            margin-right: 5px;
+        }
+    }
 }
